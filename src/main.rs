@@ -3,7 +3,6 @@ use std::net::TcpListener;
 use std::net::TcpStream;
 use std::io::prelude::*;
 use std::process::exit;
-//use ctrlc;
 
 fn main() {
     ctrlc::set_handler(move || {
@@ -11,7 +10,7 @@ fn main() {
         exit(0)
     })
     .expect("Error setting Ctrl-C handler");
-    let listener = TcpListener::bind("127.0.0.1:8080")
+    let listener = TcpListener::bind("127.0.0.1:80")
     .unwrap();
     for stream in listener.incoming() {
         let stream = stream.unwrap();
@@ -34,7 +33,7 @@ fn handle_connection(mut stream: TcpStream) {
         };
     let contents =
     fs::read_to_string(filename)
-    .unwrap();
+    .expect("test");
     let response =
     format!(
         "{}\r\nContent-Length: {}\r\n\r\n{}",
